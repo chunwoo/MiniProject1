@@ -24,6 +24,7 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -35,7 +36,6 @@ import butterknife.OnClick;
  * A simple {@link Fragment} subclass.
  */
 public class LoginFragment extends Fragment {
-
 
     public LoginFragment() {
         // Required empty public constructor
@@ -56,6 +56,8 @@ public class LoginFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().logOut();
+        PropertyManager.getInstance().setFacebookId("");
     }
 
     @Override
@@ -102,10 +104,10 @@ public class LoginFragment extends Fragment {
                     if (result.getCode() == 1) {
                         String facebookId = accessToken.getUserId();
                         PropertyManager.getInstance().setFacebookId(facebookId);
-                        ((SimpleLoginActivity)getActivity()).moveMainActivity();
-                    } else if (result.getCode() == 3){
-                        FacebookUser user = (FacebookUser)result.getResult();
-                        ((SimpleLoginActivity)getActivity()).changeFacebookSignup(user);
+                        ((SimpleLoginActivity) getActivity()).moveMainActivity();
+                    } else if (result.getCode() == 3) {
+                        FacebookUser user = (FacebookUser) result.getResult();
+                        ((SimpleLoginActivity) getActivity()).changeFacebookSignup(user);
                     }
                 }
 
@@ -130,7 +132,7 @@ public class LoginFragment extends Fragment {
                 Toast.makeText(getContext(), "user id : " + user.getId(), Toast.LENGTH_SHORT).show();
                 PropertyManager.getInstance().setEmail(email);
                 PropertyManager.getInstance().setPassword(password);
-                ((SimpleLoginActivity)getActivity()).moveMainActivity();
+                ((SimpleLoginActivity) getActivity()).moveMainActivity();
             }
 
             @Override
@@ -142,7 +144,7 @@ public class LoginFragment extends Fragment {
 
     @OnClick(R.id.btn_signup)
     public void onSignUp() {
-        ((SimpleLoginActivity)getActivity()).changeSingup();
+        ((SimpleLoginActivity) getActivity()).changeSingup();
     }
 
 }

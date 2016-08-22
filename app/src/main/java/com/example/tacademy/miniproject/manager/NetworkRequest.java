@@ -24,11 +24,8 @@ public abstract class NetworkRequest<T> implements Callback {
     }
 
     public abstract Request getRequest();
-
     protected abstract T parse(ResponseBody body) throws IOException;
-
     Call call;
-
     void process(OkHttpClient client) {
         Request request = getRequest();
         call = client.newCall(request);
